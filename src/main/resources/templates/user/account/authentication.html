@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Authentication</title>
+        <link rel="stylesheet" th:href="@{/account/authentication.css}">
+        <link rel="stylesheet" th:href="@{/account/extra.css}">
+    </head>
+    <body>
+        <div class="section">
+            <div class="container">
+                <div class="row full-height justify-content-center">
+                    <div class="col-12 text-center align-self-center py-5">
+                        <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                            <h6 class="mb-0 pb-3"><span>Log In </span><span>Sign
+                                    Up</span></h6>
+                            <input class="checkbox" type="checkbox" id="reg-log"
+                                name="reg-log"/>
+                            <label for="reg-log"></label>
+                            <div class="card-3d-wrap mx-auto">
+                                <div class="card-3d-wrapper">
+                                    <div class="card-front">
+                                        <div class="center-wrap">
+                                            <div class="section text-center">
+                                                <h4 class="mb-4 pb-3">Log In</h4>
+                                                <div class="form-group">
+                                                    <input type="text"
+                                                        name="phoneNumLogin"
+                                                        th:attr="onkeypress='return isNumberKey(event)'"
+                                                        class="form-style phoneLogin"
+                                                        maxlength="10"
+                                                        placeholder="Your Phone Number" id="phoneNumLogin"
+                                                        autocomplete="off">
+                                        
+                                                    <i class="input-icon uil
+                                                        uil-user"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password"
+                                                        name="passwordLogin"
+                                                        class="form-style passwordLogin"
+                                                        placeholder="Your Password" id="passwordLogin"
+                                                        autocomplete="off"
+                                                    >
+                                                    <i class="input-icon uil
+                                                        uil-lock-alt"></i>
+                                                </div>
+                                                <div class="form-group mt-2 ">
+                                                    <label class="checkbox-btn">
+                                                        <label for="checkbox">Remember?</label>
+                                                        <input id="cbxRemember" name="cbxRemember" type="checkbox">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                    
+                                                </div>
+                                                <form action="" id="myForm">
+                                                    <a href="" class="btn mt-4" onclick="login(event)">submit</a>
+                                                </form>
+                                                <p class="mb-0 mt-4
+                                                    text-center"><a href="#0"
+                                                        class="link">Forgot your
+                                                        password?</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-back">
+                                        <div class="center-wrap">
+                                            <div class="section text-center">
+                                                <h4 class="mb-4 pb-3">Sign Up</h4>
+                                                <div class="form-group d-flex">
+                                                    <input type="text"
+                                                        name="phoneNumRegister"
+                                                        th:attr="onkeypress='return isNumberKey(event)'"
+                                                        class="form-style"
+                                                        maxlength="10"
+                                                        placeholder="Your Phone Number" id="phoneNumRegister"
+                                                        autocomplete="off">
+                                                    
+                                                            
+                                                    <i class="input-icon uil
+                                                        uil-user"></i>
+                                                    <button type="submit" onclick="sendCode(event)" class="btn btn-secondary">Send</button>
+                                                </div>  
+                                                <div class="form-group mt-2 ">
+                                                    <input 
+                                                        type="text" disabled
+                                                        class="form-style otp_code bg-secondary"
+                                                        th:attr="onkeypress='return checkCoded(event)'"
+                                                        maxlength="6"
+                                                        name="OTPcode"
+                                                        placeholder="OTP Code"
+                                                        autocomplete="off"
+                                                    >
+                                                    <i class="input-icon uil
+                                                    uil-user"></i>
+                                                
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password"
+                                                        name="passwordRegister"
+                                                        class="form-style passwordRegister bg-secondary"
+                                                        placeholder="Your Password" id="passwordRegister"
+                                                        autocomplete="off"
+                                                        disabled
+                                                        >
+                                                    <i class="input-icon uil
+                                                        uil-lock-alt"></i>
+                                                </div>
+                                                <form action="" id="myForm">
+                                                    <a href="" class="btn mt-4" onclick="register(event)">submit</a>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="toast alert_toast position-fixed bg-danger" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+            <div class="toast-header">
+              <strong class="mr-auto">Alert</strong>
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="toast-body">
+              Please enter a valid input.
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+        <script th:inline="javascript">
+            // Get input form object
+            let otp_form_register = document.querySelector(".otp_code");
+            let password_form_register = document.querySelector('.passwordRegister');
+            let phoneLogin = document.querySelector('.phoneLogin');
+            let passwordLogin = document.querySelector('.passwordLogin');
+
+            const myToast = document.querySelector('.alert_toast');
+            // Two variable about disabled in both above form
+            let sended_code = false;
+            let true_code = false;
+
+            // Disabled or abled in both form
+            function execute_disable(){
+                console.log(sended_code);
+                if(sended_code){
+                    otp_form_register.disabled = false;
+                }
+                else {
+                    otp_form_register.disabled = true;
+                }
+
+                if(true_code){
+                    password_form_register.disabled = false;
+                }
+                else {
+                    password_form_register.disabled = true;
+                }
+            }
+
+            // Function about only approve number format in input form
+            function isNumberKey(evt) {
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+
+            function checkCoded(evt){
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                if(evt.target.value.length===6){
+                    true_code = true;
+                    password_form_register.classList.add("confirmed_background_register");
+                    execute_disable();
+                }
+                return true;
+            }
+
+            // Send code function in submit button
+            function sendCode(event){
+                event.preventDefault(); 
+                sended_code = true;
+                otp_form_register.classList.add("confirmed_background_register");
+                execute_disable();
+            }
+            function register(event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+
+                // Check the length of the input field
+                const inputLength = password_form_register.value.length;
+                console.log(inputLength);
+
+                // If the length is 0, show the toast
+                if (inputLength === 0) {
+                    console.log("Hel");
+                    const myToast = new bootstrap.Toast(document.querySelector('.alert_toast'));
+                    myToast.show();
+                }
+            }
+
+            function login(event){
+                event.preventDefault();
+
+                // Check the length of the input field
+                const phoneNumber = phoneLogin.value.length;
+                const password = passwordLogin.value.length;
+                console.log(phoneLogin, passwordLogin);
+
+                // If the length is 0, show the toast
+                if (phoneNumber===0 || password===0) {
+                    const myToast = new bootstrap.Toast(document.querySelector('.alert_toast'));
+                    myToast.show();
+                }
+            }
+         </script>
+            
+    </body>
+</html>
