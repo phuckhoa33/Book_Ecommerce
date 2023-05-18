@@ -12,30 +12,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import fpoly.edu.assignment_java5.identity.User;
 import fpoly.edu.assignment_java5.service.user.AuthenticationService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
 public class AuthenticationController {
     @Autowired
-    AuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
+    @Autowired
+    private HttpSession session;
 
-    @GetMapping("/login")
-    public String login(Model model){
+    @GetMapping("/authentication")
+    public String authentication(Model model){
+        model.addAttribute("user", new User());
+        model.addAttribute("message", session.getAttribute("message"));
+        return "user/account/authentication";
+    }
+
+    @PostMapping("/login")
+    public String login_submit(@ModelAttribute("user") @Validated User user, Model model){
+        int telephone = user.getTelephone();
+        String password = user.getPassword();
+        System.out.println(telephone);
+        Boolean success = authenticationService.login(telephone, password);
+        if(success){
+            model.addAttribute("message", session.getAttribute("message"));
+            return "redirect:/home/index";
+        }
         return "user/account/authentication";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("user") @Validated User user, BindingResult bindingResult, Model model){
+    public String register(@ModelAttribute("user") @Validated User user, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             return "register";
         }
 
         if (authenticationService.findUserByTelephone(user.getTelephone()) != null) {
-            bindingResult.rejectValue("email", "error.user", "This email already exists!");
+            bindingResult.rejectValue("email", "error.user", "This telephone already exists!");
             return "register";
         }
-        String message = authenticationService.register(null, null);
-        model.addAttribute("message", message);
+        session.setAttribute("message", session.getAttribute("message"));
         return "redirect:/home";
     }
 }

@@ -5,22 +5,42 @@ import org.springframework.stereotype.Service;
 
 import fpoly.edu.assignment_java5.identity.User;
 import fpoly.edu.assignment_java5.respository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class AuthenticationService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+    @Autowired
+    private HttpSession session;
 
-    public String register(String telephone, String password){
+    public Boolean register(String telephone, String password){
         User user = new User(); 
         user.setPassword(password);
         user.setTelephone(Integer.parseInt(telephone));        
-        System.out.println(user);
-        return "Successfully registered";
+        String message =  "Successfully registered";
+        return true;
+    }
+    
+    public void sendCode(){
+        
     }
 
-    public String login(String username, String password){
-        return "Login is successful";
+    public Boolean login(int telephone, String password){
+        User user = userRepository.findByTelephone(telephone);
+        String message = null;
+        if(user==null){
+
+            message = "This user is not exist";
+            return false;
+        }
+        else if(!user.getPassword().equals(password)){
+            message = "Password is wrong";
+            return false;
+        }
+        message = "Login is successful";
+        session.setAttribute("message", message);
+        return true;
     }
 
     public User findUserByTelephone(int telephone){
