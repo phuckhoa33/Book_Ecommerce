@@ -1,5 +1,7 @@
 package fpoly.edu.assignment_java5.controller.user;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
 import fpoly.edu.assignment_java5.identity.User;
 import fpoly.edu.assignment_java5.service.user.AuthenticationService;
+import fpoly.edu.assignment_java5.service.user.SmsService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -21,12 +26,28 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
     @Autowired
     private HttpSession session;
+    @Autowired
+    private SmsService smsService;
 
     @GetMapping("/authentication")
     public String authentication(Model model){
         model.addAttribute("user", new User());
+        model.addAttribute("account", new User());
         model.addAttribute("message", session.getAttribute("message"));
         return "user/account/authentication";
+    }
+
+    @PostMapping("/sendCode")
+    public void sendCode(Model model){
+        String code = generateVerificationCode();
+        model.addAttribute("code", code);
+        smsService.sendVerificationCode("+84972495038", code);
+    }
+
+    private String generateVerificationCode(){
+        UUID uuid = UUID.randomUUID();
+        String code = uuid.toString().replaceAll("-", "").substring(0, 6);
+        return code;
     }
 
     @PostMapping("/login")
