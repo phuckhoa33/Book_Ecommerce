@@ -1,5 +1,7 @@
 package fpoly.edu.assignment_java5.service.user;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,19 @@ public class AuthenticationService {
         String message =  "Successfully registered";
         return true;
     }
+
+    public String slicePhoneNumberVietNameseFormat(String phoneString){
+        String phoneVietNameseString = "+84"+phoneString;
+        return phoneVietNameseString;
+    }
     
+    public String generateVerificationCode(){
+        UUID uuid = UUID.randomUUID();
+        String code = uuid.toString().replaceAll("-", "").substring(0, 6);
+        System.out.println(code);
+        return code;
+    }
+
     public void sendCode(){
 
     }

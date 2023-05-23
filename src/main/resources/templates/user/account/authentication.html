@@ -70,24 +70,23 @@
                                     </div>
                                     <div class="card-back">
                                         <div class="center-wrap">
-                                            <div class="section text-center">
+                                            <form class="section text-center" th:action="@{/user/register}" th:object="${account}">
                                                 <h4 class="mb-4 pb-3">Sign Up</h4>
                                                 <div class="form-group d-flex">
                                                     <input type="text"
                                                         name="phoneNumRegister"
                                                         th:attr="onkeypress='return isNumberKey(event)'"
-                                                        class="form-style"
+                                                        class="form-style phoneRegister"
                                                         maxlength="10"
                                                         placeholder="Your Phone Number" id="phoneNumRegister"
                                                         autocomplete="off"
+                                                        th:field="*{telephone}"
                                                     >
 
                                                             
                                                     <i class="input-icon uil
                                                         uil-user"></i>
-                                                    <form th:action="@{/user/sendCode}" method="post" class="form-sendCode">
-                                                        <button type="submit" onclick="sendCode(event)" class="btn btn-secondary">Send</button>
-                                                    </form>
+                                                    <button type="button" onclick="sendCode(event)" class="btn btn-secondary">Send</button>
                                                 </div>  
                                                 <div class="form-group mt-2 ">
                                                     <input 
@@ -110,6 +109,7 @@
                                                         placeholder="Your Password" id="passwordRegister"
                                                         autocomplete="off"
                                                         disabled
+                                                        th:field="*{password}"
                                                         >
                                                     <i class="input-icon uil
                                                         uil-lock-alt"></i>
@@ -117,7 +117,7 @@
                                                 <form action="" id="myForm">
                                                     <a href="" class="btn mt-4" onclick="register(event)">submit</a>
                                                 </form>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -146,7 +146,8 @@
             let phoneLogin = document.querySelector('.phoneLogin');
             let passwordLogin = document.querySelector('.passwordLogin');
             let form_login = document.querySelector(".form-login");
-            let form_sendCode = document.querySelector('.form-sendCode');    
+            let otp_code = document.querySelector('.otp_code');    
+            let phoneRegister = document.querySelector('.phoneRegister');
 
             const myToast = document.querySelector('.alert_toast');
             // Two variable about disabled in both above form
@@ -197,7 +198,6 @@
                     password_form_register.classList.add("confirmed_background_register");
                     execute_disable();
                 }
-                return true;
             }
 
             // Send code function in submit button
@@ -205,8 +205,33 @@
                 event.preventDefault(); 
                 sended_code = true;
                 otp_form_register.classList.add("confirmed_background_register");
+                var data = {
+                    // Your data to be sent in the request body
+                    key1: phoneRegister.value.slice(1, phoneRegister.value.length)
+                };
+
+                fetch('/user/sendCode', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    // Handle the response
+                    if (response.ok) {
+                        // Request was successful
+                        console.log('POST request successful');
+                    } else {
+                        // Request failed
+                        console.error('POST request failed');
+                    }
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
                 execute_disable();
-                form_sendCode.submit();
             }
             function register(event) {
                 // Prevent the default form submission behavior
@@ -240,6 +265,5 @@
                 form_login.submit();
             }
          </script>
-            
     </body>
 </html>

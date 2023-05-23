@@ -1,8 +1,6 @@
 package fpoly.edu.assignment_java5.controller.user;
-
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,11 +8,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-
 import fpoly.edu.assignment_java5.identity.User;
+import fpoly.edu.assignment_java5.object.YourRequestObject;
 import fpoly.edu.assignment_java5.service.user.AuthenticationService;
 import fpoly.edu.assignment_java5.service.user.SmsService;
 import jakarta.servlet.http.HttpSession;
@@ -38,16 +36,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sendCode")
-    public void sendCode(Model model){
-        String code = generateVerificationCode();
-        model.addAttribute("code", code);
-        smsService.sendVerificationCode("+84972495038", code);
-    }
+    public ResponseEntity<?> sendCode(@RequestBody YourRequestObject requestObject){
+        String phoneString = requestObject.getKey1();
+        System.out.println(phoneString);
+        String code = authenticationService.generateVerificationCode();
+        smsService.sendVerificationCode(authenticationService.slicePhoneNumberVietNameseFormat(phoneString), code);
 
-    private String generateVerificationCode(){
-        UUID uuid = UUID.randomUUID();
-        String code = uuid.toString().replaceAll("-", "").substring(0, 6);
-        return code;
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")

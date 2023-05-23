@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.twilio.Twilio;
+import com.twilio.exception.ApiException;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
@@ -20,12 +21,17 @@ public class SmsService {
     private String twilioPhoneNumber;
 
     public void sendVerificationCode(String phoneNumber, String verificationCode) {
-        Twilio.init(twilioAccountSid, twilioAuthToken);
-
-        Message.creator(
-                new PhoneNumber(phoneNumber),
-                new PhoneNumber(twilioPhoneNumber),
-                "Your verification code is: " + verificationCode)
-                .create();
+        System.out.println("COde:"+verificationCode);
+        try {
+            Twilio.init(twilioAccountSid, twilioAuthToken);
+    
+            Message.creator(
+                    new PhoneNumber(phoneNumber),
+                    new PhoneNumber(twilioPhoneNumber),
+                    "Your verification code is: " + verificationCode)
+                    .create();
+        } catch (ApiException e) {
+            System.out.println(e);
+        }
     }
 }
