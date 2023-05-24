@@ -39,7 +39,7 @@ public class AuthenticationController {
     public ResponseEntity<?> sendCode(@RequestBody YourRequestObject requestObject){
         String phoneString = requestObject.getKey1();
         System.out.println(phoneString);
-        String code = authenticationService.generateVerificationCode();
+        String code = String.valueOf(authenticationService.generateVerificationCode());
         smsService.sendVerificationCode(authenticationService.slicePhoneNumberVietNameseFormat(phoneString), code);
 
         return ResponseEntity.ok().build();
@@ -68,6 +68,7 @@ public class AuthenticationController {
             bindingResult.rejectValue("email", "error.user", "This telephone already exists!");
             return "register";
         }
+        authenticationService.register(String.valueOf(user.getTelephone()), user.getPassword());
         session.setAttribute("message", session.getAttribute("message"));
         return "redirect:/home";
     }

@@ -1,6 +1,6 @@
 package fpoly.edu.assignment_java5.service.user;
 
-import java.util.UUID;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +18,11 @@ public class AuthenticationService {
 
     public Boolean register(String telephone, String password){
         User user = new User(); 
+        System.out.println(telephone+password);
         user.setPassword(password);
-        user.setTelephone(Integer.parseInt(telephone));        
-        String message =  "Successfully registered";
+        user.setTelephone(Integer.parseInt(telephone));      
+        session.setAttribute("user", user);
+        userRepository.save(user);
         return true;
     }
 
@@ -29,11 +31,13 @@ public class AuthenticationService {
         return phoneVietNameseString;
     }
     
-    public String generateVerificationCode(){
-        UUID uuid = UUID.randomUUID();
-        String code = uuid.toString().replaceAll("-", "").substring(0, 6);
-        System.out.println(code);
-        return code;
+    public int generateVerificationCode(){
+        // Create an instance of Random class
+        Random random = new Random();
+
+        // Generate a random integer between 0 and 9 (inclusive)
+        int randomNumber = random.nextInt(900000) + 100000;
+        return randomNumber;
     }
 
     public void sendCode(){

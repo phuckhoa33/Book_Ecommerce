@@ -15,6 +15,7 @@ public class SMSTest {
 
         try {
             PhoneNumber number = PhoneNumber.fetcher(new com.twilio.type.PhoneNumber(phoneNumber)).fetch();
+            System.out.println(number);
             boolean isSmsCapable = true;
 
             if (isSmsCapable) {

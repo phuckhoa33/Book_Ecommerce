@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="card-back">
                                         <div class="center-wrap">
-                                            <form class="section text-center" th:action="@{/user/register}" th:object="${account}">
+                                            <form class="section text-center register-form" th:action="@{/user/register}" method="post" th:object="${account}">
                                                 <h4 class="mb-4 pb-3">Sign Up</h4>
                                                 <div class="form-group d-flex">
                                                     <input type="text"
@@ -100,7 +100,7 @@
                                                     >
                                                     <i class="input-icon uil
                                                     uil-user"></i>
-                                                
+                                                    
                                                 </div>
                                                 <div class="form-group mt-2">
                                                     <input type="password"
@@ -114,9 +114,7 @@
                                                     <i class="input-icon uil
                                                         uil-lock-alt"></i>
                                                 </div>
-                                                <form action="" id="myForm">
-                                                    <a href="" class="btn mt-4" onclick="register(event)">submit</a>
-                                                </form>
+                                                <button type="submit" class="btn mt-4" onclick="register(event)">submit</button>
                                             </form>
                                         </div>
                                     </div>
@@ -148,6 +146,7 @@
             let form_login = document.querySelector(".form-login");
             let otp_code = document.querySelector('.otp_code');    
             let phoneRegister = document.querySelector('.phoneRegister');
+            let register_form = document.querySelector('.register-form');
 
             const myToast = document.querySelector('.alert_toast');
             // Two variable about disabled in both above form
@@ -193,7 +192,7 @@
                 if (charCode > 31 && (charCode < 48 || charCode > 57)) {
                     return false;
                 }
-                if(evt.target.value.length===6 && evt.target.value==serverCode){
+                if(evt.target.value.length===6){
                     true_code = true;
                     password_form_register.classList.add("confirmed_background_register");
                     execute_disable();
@@ -239,13 +238,14 @@
 
                 // Check the length of the input field
                 const inputLength = password_form_register.value.length;
-                console.log(inputLength);
+                
 
                 // If the length is 0, show the toast
                 if (inputLength === 0) {
-                    console.log("Hel");
-                    const myToast = new bootstrap.Toast(document.querySelector('.alert_toast'));
-                    myToast.show();
+                    run_toast()
+                }
+                else {
+                    register_form.submit();
                 }
             }
 
