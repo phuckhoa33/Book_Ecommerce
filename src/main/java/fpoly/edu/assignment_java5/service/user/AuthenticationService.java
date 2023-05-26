@@ -48,7 +48,6 @@ public class AuthenticationService {
         User user = userRepository.findByTelephone(telephone);
         String message = null;
         if(user==null){
-
             message = "This user is not exist";
             return false;
         }

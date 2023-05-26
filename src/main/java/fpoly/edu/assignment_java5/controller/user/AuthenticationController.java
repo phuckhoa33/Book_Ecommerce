@@ -31,17 +31,20 @@ public class AuthenticationController {
     public String authentication(Model model){
         model.addAttribute("user", new User());
         model.addAttribute("account", new User());
-        model.addAttribute("message", session.getAttribute("message"));
+        model.addAttribute("message", "Welcome to bookstore");
         return "user/account/authentication";
     }
 
     @PostMapping("/sendCode")
-    public ResponseEntity<?> sendCode(@RequestBody YourRequestObject requestObject){
+    public ResponseEntity<?> sendCode(@RequestBody YourRequestObject requestObject, BindingResult bindingResult, Model model){
         String phoneString = requestObject.getKey1();
-        System.out.println(phoneString);
+        if (authenticationService.findUserByTelephone(Integer.parseInt(phoneString)) != null) {
+            model.addAttribute("message", "This telephone already exists!");
+            return null;
+        }
         String code = String.valueOf(authenticationService.generateVerificationCode());
         smsService.sendVerificationCode(authenticationService.slicePhoneNumberVietNameseFormat(phoneString), code);
-
+        model.addAttribute("message", "This telephone is valid");
         return ResponseEntity.ok().build();
     }
 
@@ -49,13 +52,12 @@ public class AuthenticationController {
     public String login_submit(@ModelAttribute("user") @Validated User user, Model model){
         int telephone = user.getTelephone();
         String password = user.getPassword();
-        System.out.println(telephone);
         Boolean success = authenticationService.login(telephone, password);
         if(success){
             model.addAttribute("message", session.getAttribute("message"));
-            return "redirect:/home/index";
+            return "redirect:/user/home";
         }
-        return "user/account/authentication";
+        return "redirect:/user/home";
     }
 
     @PostMapping("/register")
@@ -63,13 +65,8 @@ public class AuthenticationController {
         if (bindingResult.hasErrors()) {
             return "register";
         }
-
-        if (authenticationService.findUserByTelephone(user.getTelephone()) != null) {
-            bindingResult.rejectValue("email", "error.user", "This telephone already exists!");
-            return "register";
-        }
         authenticationService.register(String.valueOf(user.getTelephone()), user.getPassword());
         session.setAttribute("message", session.getAttribute("message"));
-        return "redirect:/home";
+        return "redirect:/user/home";
     }
 }
