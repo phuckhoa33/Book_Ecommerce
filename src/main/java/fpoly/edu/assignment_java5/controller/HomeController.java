@@ -17,4 +17,9 @@ public class HomeController {
     public String cart(){
         return "user/cart";
     }
+
+    @GetMapping("/book")
+    public String book(){
+        return "user/bookDetail";
+    }
 }

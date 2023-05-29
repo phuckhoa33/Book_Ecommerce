@@ -110,8 +110,7 @@ nav .logo {
 .dropMenuBar li a {
   color: #245780;
 }
-.slider {
-}
+
 .menuBar {
   display: flex;
   justify-content: space-around;
@@ -502,7 +501,75 @@ td {
   font-size: 13px;
 }
 
-/* cart start css */
+/* cart end css */
+
+/* book-detail start css */
+.book-detail {
+  background-color: #fff;
+}
+.product-detail-img {
+  border: 0.5px solid #ccc;
+  height: 700px;
+  padding: 70px 0px;
+  font-size: 16px;
+}
+.book-name {
+  font-size: 26px;
+}
+.money {
+  font-size: 24px;
+  font-weight: 700;
+  color: red;
+}
+.add-cart-minus,
+.add-cart-plus {
+  border: none;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  font-size: 10px;
+  padding: 0px 4px;
+}
+
+.add-cart-minus {
+  left: 0;
+}
+.add-cart-plus {
+  right: 0;
+}
+.buy-book {
+  max-width: 360px;
+}
+.buy-book .buy-button,
+.add .add-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  text-transform: uppercase;
+}
+.buy-book .buy-button:hover,
+.add .add-button:hover {
+  background-color: #ff6162;
+}
+.product-ask a,
+.shipping a,
+.wirter a,
+.product-cart-category span a {
+  text-decoration: none;
+  color: #000;
+}
+.product-cart-category span a:hover,
+.liked:hover,
+.feedback:hover,
+.product-ask a:hover,
+.shipping a:hover,
+.add-cart-minus:hover,
+.wirter a:hover,
+.add-cart-plus:hover,
+.book-available:hover {
+  color: #ff6162;
+}
+
+/* book-detail end css */
 
 @media screen and (max-width: 990px) {
   .searchBtn {
