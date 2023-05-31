@@ -18,4 +18,6 @@ public interface BookService {
 	
 	public void updateBook(Book paramBook);
 	
+	public List<Book> priceDescPriceBookList();
+	
 }

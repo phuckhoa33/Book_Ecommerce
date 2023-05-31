@@ -12,9 +12,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	
 	List<Book> findAll();
 	
-	@Query("SELECT b FROM Book u WHERE u.name LIKE CONCAT('%', :keyword, '%')")
+	@Query("SELECT b FROM Book b WHERE b.name LIKE CONCAT('%', :keyword, '%')")
 	List<Book> getBookListByKeyword(@Param("keyword") String keyword);
 	
-	
+	@Query("SELECT b FROM Book b ORDER by b.price DESC")
+	List<Book> priceDescPriceBookList();
 	
 }

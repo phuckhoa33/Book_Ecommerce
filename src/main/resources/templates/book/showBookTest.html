@@ -10,6 +10,18 @@
 	
 	
 	
+	<div th:each="item : ${result}"> 
+		
+		<h5 th:text="${item.name}"></h5>
+		<h5 th:text="${item.price}"></h5>
+		<h5 th:text="${item.description}"></h5>
+		<h5 th:text="${item.discount}"></h5>
+		<h5 th:text="${item.authorName}"></h5>
+	
+		
+		
+	 </div>
+	
 	
 </body>
 </html>

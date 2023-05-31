@@ -53,6 +53,14 @@ public class BookServiceImpl implements BookService{
 		
 	}
 
+	@Override
+	public List<Book> priceDescPriceBookList() {
+		
+		List<Book> result = bookRepository.priceDescPriceBookList();
+		
+		return result;
+	}
+
 	
 	
 }

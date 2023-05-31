@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import fpoly.edu.assignment_java5.identity.Book;
 import fpoly.edu.assignment_java5.service.book.BookService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/book")
@@ -17,13 +18,17 @@ public class BookSpaceController {
 	@Autowired
 	BookService bookService;
 	
+	@Autowired
+	HttpServletRequest request;
+	
 	@GetMapping("/view")
 	public String showBookList() {
 		
-		List<Book> result = bookService.getAllBooks();
+		List<Book> result = bookService.priceDescPriceBookList();
 		
-		
-		return "";
+		request.setAttribute("result", result);
+				
+		return "/book/showBookTest";
 	}
 	
 	

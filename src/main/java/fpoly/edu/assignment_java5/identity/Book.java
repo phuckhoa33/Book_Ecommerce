@@ -22,6 +22,7 @@ import lombok.Setter;
 public class Book {
 	
 	@Id
+	@Column(name = "book_id")
 	private Long id;
 	
 	@Column(columnDefinition = "nvarchar(100)")
@@ -37,8 +38,13 @@ public class Book {
 	@Column(columnDefinition = "nvarchar(100)")
 	private String authorName;
 	
+	@Column(columnDefinition = "nvarchar(500)")
+	private String image;
+	
 	@ManyToOne
 	@JoinColumn(name = "categoryId")
 	Category category;
+	
+	
 	
 }
