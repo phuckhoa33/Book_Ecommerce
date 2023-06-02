@@ -37,19 +37,19 @@ public class BookServiceImpl implements BookService{
 
 	@Override
 	public void insertBook(Book paramBook) {
-		// TODO Auto-generated method stub
+		bookRepository.save(paramBook);
 		
 	}
 
 	@Override
 	public void deleteBook(Book paramBook) {
-		// TODO Auto-generated method stub
+		bookRepository.delete(paramBook);
 		
 	}
 
 	@Override
 	public void updateBook(Book paramBook) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

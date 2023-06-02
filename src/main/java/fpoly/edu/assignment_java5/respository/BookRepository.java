@@ -18,4 +18,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	@Query("SELECT b FROM Book b ORDER by b.price DESC")
 	List<Book> priceDescPriceBookList();
 	
+	
+
+	
+	
+	
+	
+	
 }
