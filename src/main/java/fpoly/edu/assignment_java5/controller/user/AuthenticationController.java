@@ -1,5 +1,6 @@
 package fpoly.edu.assignment_java5.controller.user;
 
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,4 +39,18 @@ public class AuthenticationController {
         model.addAttribute("message", message);
         return "redirect:/home";
     }
+=======
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/user")
+public class AuthenticationController {
+    @GetMapping("/authentication")
+    public String login(Model model){
+        return "user/account/authentication";
+    }
+>>>>>>> remotes/origin/UI_UX_design
 }

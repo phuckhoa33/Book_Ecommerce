@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../FrameWorkFront"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Front-end"
+	}
+}
