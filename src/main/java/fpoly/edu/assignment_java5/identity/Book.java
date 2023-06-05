@@ -28,9 +28,9 @@ public class Book {
 	@Column(columnDefinition = "nvarchar(100)")
 	private String name;
 	
-	private double price;
+	private Long price;
 	
-	private double discount;
+	private Long discount;
 	
 	@Column(columnDefinition = "nvarchar(200)")
 	private String description;

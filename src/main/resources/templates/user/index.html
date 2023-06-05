@@ -2,14 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <title>Title</title>
+  <title>Nhà Sách Số 1 VN</title>
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   <!-- css and fonts tag -->
-    <link rel="stylesheet" href="/user/css/style.css">
-    <link rel="stylesheet" href="/user/fonts/themify-icons-font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/fonts/themify-icons-font/themify-icons/themify-icons.css">
 
   <!-- Bootstrap CSS v5.2.1 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -474,70 +474,34 @@
 
           <div class="sectionBody overflow-hidden m-2">
             <div class="row flex-nowrap">
-              <div class="col-6 col-lg-3">
-                <div class="product-card" style="margin: 0 auto;">
-                  <div class="product-image">
-                    <span class="discount-tag">50% off</span>
-                    <img src="images/card8.jpg" class="product-thumb" alt="" />
-                    <button class="card-btn">add to wishlist</button>
-                  </div>
-                  <div class="product-info">
-                    <h2 class="product-brand">brand</h2>
-                    <p class="product-short-description">
-                      a short line about the cloth..
-                    </p>
-                    <span class="price">$20</span><span class="actual-price">$40</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6 col-lg-3">
-                <div class="product-card" style="margin: 0 auto;">
-                  <div class="product-image">
-                    <span class="discount-tag">50% off</span>
-                    <img src="images/card8.jpg" class="product-thumb" alt="" />
-                    <button class="card-btn">add to wishlist</button>
-                  </div>
-                  <div class="product-info">
-                    <h2 class="product-brand">brand</h2>
-                    <p class="product-short-description">
-                      a short line about the cloth..
-                    </p>
-                    <span class="price">$20</span><span class="actual-price">$40</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6 col-lg-3">
-                <div class="product-card" style="margin: 0 auto;">
-                  <div class="product-image">
-                    <span class="discount-tag">50% off</span>
-                    <img src="images/card8.jpg" class="product-thumb" alt="" />
-                    <button class="card-btn">add to wishlist</button>
-                  </div>
-                  <div class="product-info">
-                    <h2 class="product-brand">brand</h2>
-                    <p class="product-short-description">
-                      a short line about the cloth..
-                    </p>
-                    <span class="price">$20</span><span class="actual-price">$40</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6 col-lg-3">
-                <div class="product-card" style="margin: 0 auto;">
-                  <div class="product-image">
-                    <span class="discount-tag">50% off</span>
-                    <img src="images/card8.jpg" class="product-thumb" alt="" />
-                    <button class="card-btn">add to wishlist</button>
-                  </div>
-                  <div class="product-info">
-                    <h2 class="product-brand">brand</h2>
-                    <p class="product-short-description">
-                      a short line about the cloth..
-                    </p>
-                    <span class="price">$20</span><span class="actual-price">$40</span>
-                  </div>
-                </div>
-              </div>
+            	
+            	<th:block th:each="item : ${bestSellerBooks}">
+            	
+            		<div class="col-6 col-lg-3">
+                		<div class="product-card" style="margin: 0 auto;">
+                  			<div class="product-image">
+                   				<span class="discount-tag" th:text="${item.discount} + '% off'"></span>
+                    			<img th:src="${item.image}" class="product-thumb" alt="" />
+                    			<button class="card-btn">add to wishlist</button>
+                  			</div>
+                  			<div class="product-info">
+                    			<a th:href="@{|/index/book/${item.id}|}">See More Detail</a>
+                    			<p class="product-short-description" th:text="${item.name}">
+                      				
+                    			</p>
+                    			
+                    			
+                    			
+                    			<span class="price" th:text="${item.price - (item.price * item.discount / 100)} + 'đ'"></span><span class="actual-price" th:text="${item.price} + 'đ'"></span>
+                  			</div>
+                		</div>
+              		</div>
+            	
+            	</th:block>
+            
+              
+              
+              
               <div class="col-6 col-lg-3">
                 <img class="w-100" src="./assets/img/place1.jpg" alt="" />
               </div>

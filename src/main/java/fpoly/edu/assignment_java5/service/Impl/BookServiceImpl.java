@@ -61,6 +61,27 @@ public class BookServiceImpl implements BookService{
 		return result;
 	}
 
+	@Override
+	public List<Book> getBestSellerBooks() {
+		
+		List<Book> result = bookRepository.getBestSellerBooks();
+		
+		return result;
+	}
+	
+	@Override
+	public Book getBookById(Long id) {
+		
+		Book result =  new Book();
+		
+		result = bookRepository.getBookById(id);
+		
+		
+		return result;
+	}
+	
+	
+
 	
 	
 }

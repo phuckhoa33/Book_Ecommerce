@@ -18,9 +18,18 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	@Query("SELECT b FROM Book b ORDER by b.price DESC")
 	List<Book> priceDescPriceBookList();
 	
-	
+	@Query("SELECT bk " +
+            "FROM Book bk " +
+            "JOIN OrderDetail od " +
+            "GROUP BY bk.id " +
+            "ORDER BY COUNT(bk.id) DESC " +
+            "LIMIT 4")
+	List<Book> getBestSellerBooks();
 
-	
+	@Query("SELECT bk "
+			+ "FROM Book bk "
+			+ "WHERE bk.id = :bkid")
+	Book getBookById(@Param("bkid") Long bkid);
 	
 	
 	

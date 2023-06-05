@@ -20,4 +20,8 @@ public interface BookService {
 	
 	public List<Book> priceDescPriceBookList();
 	
+	public List<Book> getBestSellerBooks();
+
+	Book getBookById(Long id);
+	
 }
