@@ -1,11 +1,11 @@
 // Get input form object
 let otp_form_register = document.querySelector(".otp_code");
 let password_form_register = document.querySelector('.passwordRegister');
-let phoneLogin = document.querySelector('.phoneLogin');
+let phoneLogin = document.querySelector('.emailLogin');
 let passwordLogin = document.querySelector('.passwordLogin');
 let form_login = document.querySelector(".form-login");
 let otp_code = document.querySelector('.otp_code');    
-let phoneRegister = document.querySelector('.phoneRegister');
+let phoneRegister = document.querySelector('.emailRegister');
 let register_form = document.querySelector('.register-form');
 
 const myToast = document.querySelector('.alert_toast');
@@ -21,7 +21,6 @@ run_toast();
 
 // Disabled or abled in both form
 function execute_disable(){
-    console.log(sended_code);
     if(sended_code){
         otp_form_register.disabled = false;
     }
@@ -35,6 +34,11 @@ function execute_disable(){
     else {
         password_form_register.disabled = true;
     }
+}
+
+function changeContent(mess){
+    let message = document.querySelector('.message');
+    message.innerHTML = mess;
 }
 
 // Function about only approve number format in input form
@@ -72,9 +76,14 @@ function post_method(respoint, data){
         // Handle the response
         if (response.ok) {
             // Request was successful
+            execute_disable();
+            changeContent('Successfully')
+            run_toast();
             console.log('POST request successful');
         } else {
             // Request failed
+            changeContent('Failed')
+            run_toast();
             console.error('POST request failed');
         }
     })
@@ -91,11 +100,9 @@ function sendCode(event){
     
     var data = {
         // Your data to be sent in the request body
-        key1: phoneRegister.value.slice(1, phoneRegister.value.length)
+        key1: phoneRegister.value
     };
     post_method('/user/sendCode', data)
-    execute_disable();
-    run_toast();
 }
 function register(event) {
     // Prevent the default form submission behavior

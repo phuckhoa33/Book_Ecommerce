@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import fpoly.edu.assignment_java5.identity.User;
 import fpoly.edu.assignment_java5.object.YourRequestObject;
 import fpoly.edu.assignment_java5.service.user.AuthenticationService;
-import fpoly.edu.assignment_java5.service.user.SmsService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -24,8 +23,6 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
     @Autowired
     private HttpSession session;
-    @Autowired
-    private SmsService smsService;
 
     @GetMapping("/authentication")
     public String authentication(Model model){
@@ -37,27 +34,26 @@ public class AuthenticationController {
 
     @PostMapping("/sendCode")
     public ResponseEntity<?> sendCode(@RequestBody YourRequestObject requestObject, BindingResult bindingResult, Model model){
-        String phoneString = requestObject.getKey1();
-        if (authenticationService.findUserByTelephone(Integer.parseInt(phoneString)) != null) {
-            model.addAttribute("message", "This telephone already exists!");
-            return null;
+        String email = requestObject.getKey1();
+
+        if (authenticationService.findUserByEmail(email) != null) {
+            return ResponseEntity.badRequest().build();
         }
+
         String code = String.valueOf(authenticationService.generateVerificationCode());
-        smsService.sendVerificationCode(authenticationService.slicePhoneNumberVietNameseFormat(phoneString), code);
-        model.addAttribute("message", "This telephone is valid");
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
     public String login_submit(@ModelAttribute("user") @Validated User user, Model model){
-        int telephone = user.getTelephone();
+        String email = user.getEmail();
         String password = user.getPassword();
-        Boolean success = authenticationService.login(telephone, password);
+        Boolean success = authenticationService.login(email, password);
         if(success){
             model.addAttribute("message", session.getAttribute("message"));
-            return "redirect:/user/home";
+            return "redirect:/home/index";
         }
-        return "redirect:/user/home";
+        return "redirect:/home/index";
     }
 
     @PostMapping("/register")
@@ -65,8 +61,8 @@ public class AuthenticationController {
         if (bindingResult.hasErrors()) {
             return "register";
         }
-        authenticationService.register(String.valueOf(user.getTelephone()), user.getPassword());
+        authenticationService.register(String.valueOf(user.getEmail()), user.getPassword());
         session.setAttribute("message", session.getAttribute("message"));
-        return "redirect:/user/home";
+        return "redirect:/home/index";
     }
 }

@@ -25,8 +25,8 @@ public class User {
     @Column(name = "lastname")
     private String lastname;
 
-    @Column(name = "telephone")
-    private int telephone;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "created_at")
     private Timestamp created_at;
@@ -67,12 +67,12 @@ public class User {
         return lastname;
     }
 
-    public void setTelephone(int telephone) {
-        this.telephone = telephone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getTelephone() {
-        return telephone;
+    public String getEmail() {
+        return email;
     }
 
     public void setCreated_at(Timestamp created_at) {

@@ -24,20 +24,18 @@
                                             <form method="post" class="section text-center form-login" th:action="@{/user/login}" th:object="${user}">
                                                 <h4 class="mb-4 pb-3">Log In</h4>
                                                 <div class="form-group">
-                                                    <input type="text"
+                                                    <input type="email"
                                                         required
-                                                        name="phoneNumLogin"
-                                                        th:field="*{telephone}"
-                                                        th:attr="onkeypress='return isNumberKey(event)'"
-                                                        class="form-style phoneLogin"
-                                                        maxlength="10"
-                                                        placeholder="Your Phone Number" id="phoneNumLogin"
+                                                        name="email"
+                                                        th:field="*{email}"
+                                                        class="form-style emailLogin"
+                                                        placeholder="Your Email" id="email"
                                                         autocomplete="off">
                                                         
                                                     <i class="input-icon uil
                                                         uil-user"></i>
 
-                                                    <span class="error" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></span>
+                                                    <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                                                 </div>
                                                 <div class="form-group mt-2">
                                                     <input type="password"
@@ -73,14 +71,12 @@
                                             <form class="section text-center register-form" th:action="@{/user/register}" method="post" th:object="${account}">
                                                 <h4 class="mb-4 pb-3">Sign Up</h4>
                                                 <div class="form-group d-flex">
-                                                    <input type="text"
-                                                        name="phoneNumRegister"
-                                                        th:attr="onkeypress='return isNumberKey(event)'"
-                                                        class="form-style phoneRegister"
-                                                        maxlength="10"
-                                                        placeholder="Your Phone Number" id="phoneNumRegister"
+                                                    <input type="email"
+                                                        name="email"
+                                                        class="form-style emailRegister"
+                                                        placeholder="Your Email" id="email"
                                                         autocomplete="off"
-                                                        th:field="*{telephone}"
+                                                        th:field="*{email}"
                                                     >
                                                             
                                                     <i class="input-icon uil
@@ -131,8 +127,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="toast-body" th:text="${message}">
-            </div>
+            <p class="message">Wellcome to bookstore</p>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
         

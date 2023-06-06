@@ -16,11 +16,11 @@ public class AuthenticationService {
     @Autowired
     private HttpSession session;
 
-    public Boolean register(String telephone, String password){
+    public Boolean register(String email, String password){
         User user = new User(); 
-        System.out.println(telephone+password);
+        System.out.println(email+password);
         user.setPassword(password);
-        user.setTelephone(Integer.parseInt(telephone));      
+        user.setEmail(email);      
         session.setAttribute("user", user);
         userRepository.save(user);
         return true;
@@ -44,8 +44,8 @@ public class AuthenticationService {
 
     }
 
-    public Boolean login(int telephone, String password){
-        User user = userRepository.findByTelephone(telephone);
+    public Boolean login(String email, String password){
+        User user = userRepository.findByEmail(email);
         String message = null;
         if(user==null){
             message = "This user is not exist";
@@ -60,7 +60,7 @@ public class AuthenticationService {
         return true;
     }
 
-    public User findUserByTelephone(int telephone){
-        return userRepository.findByTelephone(telephone);
+    public User findUserByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 }

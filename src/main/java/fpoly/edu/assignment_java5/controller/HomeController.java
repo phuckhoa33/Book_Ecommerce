@@ -17,6 +17,6 @@ public class HomeController {
     @GetMapping("index")
     public String home(Model model){
         model.addAttribute("message", session.getAttribute("message"));
-        return "user/home";  
+        return "user/index";  
     }
 }
